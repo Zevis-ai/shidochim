@@ -1,4 +1,4 @@
-// Firebase configuration
+// Firebase configuration זאבי
 const firebaseConfig = {
     apiKey: window.ENV?.FIREBASE_API_KEY,
     authDomain: window.ENV?.FIREBASE_AUTH_DOMAIN,
@@ -9,13 +9,32 @@ const firebaseConfig = {
     appId: window.ENV?.FIREBASE_APP_ID
 };
 
+// בדיקה אם כל המשתנים קיימים
+console.log('Firebase Config loaded:', {
+    hasApiKey: !!firebaseConfig.apiKey,
+    hasAuthDomain: !!firebaseConfig.authDomain,
+    hasDatabaseURL: !!firebaseConfig.databaseURL,
+    hasProjectId: !!firebaseConfig.projectId
+});
+
 // Check if Firebase configuration is valid
 //if (!firebaseConfig.databaseURL || !firebaseConfig.databaseURL.startsWith('https://')) {
 //    console.error('Invalid Firebase Database URL. Please check your environment variables.');
 //}
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+try {
+    firebase.initializeApp(firebaseConfig);
+    console.log('Firebase initialized successfully');
+    
+    // Test database connection
+    const dbRef = firebase.database().ref();
+    dbRef.child('test').once('value')
+        .then(() => console.log('Database connection successful'))
+        .catch(error => console.error('Database connection failed:', error));
+} catch (error) {
+    console.error('Firebase initialization error:', error);
+}
 
 // Global variables
 let currentStep = 0;
@@ -170,8 +189,19 @@ async function submitForm() {
         
         // Save to Realtime Database
         console.log('Saving to Firebase...');
-        const applicationsRef = firebase.database().ref('applications');
+        
+        // Get database reference and check if it exists
+        const database = firebase.database();
+        if (!database) {
+            throw new Error('Firebase database is not initialized');
+        }
+        console.log('Database reference obtained');
+        
+        const applicationsRef = database.ref('applications');
+        console.log('Applications reference created');
+        
         const newApplicationRef = applicationsRef.push();
+        console.log('New application reference created');
         
         await newApplicationRef.set(formData);
         console.log('Successfully saved to Firebase with key:', newApplicationRef.key);
@@ -185,7 +215,7 @@ async function submitForm() {
         }
     } catch (error) {
         console.error("Error submitting form:", error);
-        alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב מאוחר יותר.');
+        alert('אירעה שגיאה בשליחת הטופס: ' + error.message);
     }
 }
 

@@ -332,15 +332,15 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
     <!-- Environment Variables -->
-    <script>
+       <script>
         window.ENV = {
-            FIREBASE_API_KEY: 'AIzaSyBqj5sgHuHRwQW-oxfwV7F5LDQYIaT0RpE',
-            FIREBASE_AUTH_DOMAIN: 'shidochim-6588c.firebaseapp.com',
-            FIREBASE_DATABASE_URL: 'https://shidochim-6588c-default-rtdb.europe-west1.firebasedatabase.app',
-            FIREBASE_PROJECT_ID: 'shidochim-6588c',
-            FIREBASE_STORAGE_BUCKET: 'shidochim-6588c.appspot.com',
-            FIREBASE_MESSAGING_SENDER_ID: '1050481626687',
-            FIREBASE_APP_ID: '1:1050481626687:web:d13da3e0dd7e5d0e5e8c9f'
+            FIREBASE_API_KEY: '<%- process.env.FIREBASE_API_KEY %>',
+            FIREBASE_AUTH_DOMAIN: '<%- process.env.FIREBASE_AUTH_DOMAIN %>',
+            FIREBASE_DATABASE_URL: '<%- process.env.FIREBASE_DATABASE_URL %>',
+            FIREBASE_PROJECT_ID: '<%- process.env.FIREBASE_PROJECT_ID %>',
+            FIREBASE_STORAGE_BUCKET: '<%- process.env.FIREBASE_STORAGE_BUCKET %>',
+            FIREBASE_MESSAGING_SENDER_ID: '<%- process.env.FIREBASE_MESSAGING_SENDER_ID %>',
+            FIREBASE_APP_ID: '<%- process.env.FIREBASE_APP_ID %>'
         };
     </script>
 

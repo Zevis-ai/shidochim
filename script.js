@@ -9,9 +9,22 @@ const firebaseConfig = {
     appId: window.ENV.FIREBASE_APP_ID
 };
 
+// Debug: Print config (without sensitive data)
+console.log('Firebase Config:', {
+    authDomain: firebaseConfig.authDomain,
+    databaseURL: firebaseConfig.databaseURL,
+    projectId: firebaseConfig.projectId,
+    storageBucket: firebaseConfig.storageBucket
+});
+
 // Initialize Firebase
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+try {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        console.log('Firebase initialized successfully');
+    }
+} catch (error) {
+    console.error('Firebase initialization error:', error);
 }
 
 // Auth state observer
@@ -335,18 +348,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // פונקציות אימות
-function signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-        .then((result) => {
-            const user = result.user;
-            showWelcomeMessage(user.displayName);
-            updateUserInterface(user);
-        })
-        .catch((error) => {
-            console.error("שגיאת התחברות:", error);
-            alert("אירעה שגיאה בהתחברות. אנא נסה שוב.");
-        });
+async function signInWithGoogle() {
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('profile');
+        provider.addScope('email');
+        
+        console.log('Starting Google Sign In...');
+        const result = await firebase.auth().signInWithPopup(provider);
+        
+        console.log('Sign in successful:', result.user);
+        updateUserInterface(result.user);
+        showWelcomeMessage(result.user.displayName);
+    } catch (error) {
+        console.error('שגיאת התחברות:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        alert('אירעה שגיאה בהתחברות: ' + error.message);
+    }
 }
 
 function signOut() {

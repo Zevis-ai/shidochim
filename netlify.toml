@@ -1,11 +1,15 @@
 [build]
   publish = "/"
+  command = "# no build command needed"
 
-[template.environment]
-  FIREBASE_API_KEY = "Firebase API Key"
-  FIREBASE_AUTH_DOMAIN = "Firebase Auth Domain"
-  FIREBASE_DATABASE_URL = "Firebase Database URL"
-  FIREBASE_PROJECT_ID = "Firebase Project ID"
-  FIREBASE_STORAGE_BUCKET = "Firebase Storage Bucket"
-  FIREBASE_MESSAGING_SENDER_ID = "Firebase Messaging Sender ID"
-  FIREBASE_APP_ID = "Firebase App ID"
+[build.environment]
+  NODE_VERSION = "18"
+
+[context.production.environment]
+  FIREBASE_API_KEY = "from netlify UI"
+  FIREBASE_AUTH_DOMAIN = "from netlify UI"
+  FIREBASE_DATABASE_URL = "from netlify UI"
+  FIREBASE_PROJECT_ID = "from netlify UI"
+  FIREBASE_STORAGE_BUCKET = "from netlify UI"
+  FIREBASE_MESSAGING_SENDER_ID = "from netlify UI"
+  FIREBASE_APP_ID = "from netlify UI"

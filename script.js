@@ -9,10 +9,10 @@ const firebaseConfig = {
     appId: window.ENV?.FIREBASE_APP_ID
 };
 
-// Check if all Firebase configuration values are present
-//if (!Object.values(firebaseConfig).every(value => value)) {
- //   console.error('Missing Firebase configuration. Please make sure all environment variables are set.');
-//}
+// Check if Firebase configuration is valid
+if (!firebaseConfig.databaseURL || !firebaseConfig.databaseURL.startsWith('https://')) {
+    console.error('Invalid Firebase Database URL. Please check your environment variables.');
+}
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

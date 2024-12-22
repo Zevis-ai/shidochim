@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מערכת  - שידוכים</title>
+    <title>מערכת שידוכים</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -341,15 +341,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <script>
         window.ENV = {
-            FIREBASE_API_KEY: '{{ FIREBASE_API_KEY }}',
-            FIREBASE_AUTH_DOMAIN: '{{ FIREBASE_AUTH_DOMAIN }}',
-            FIREBASE_DATABASE_URL: '{{ FIREBASE_DATABASE_URL }}',
-            FIREBASE_PROJECT_ID: '{{ FIREBASE_PROJECT_ID }}',
-            FIREBASE_STORAGE_BUCKET: '{{ FIREBASE_STORAGE_BUCKET }}',
-            FIREBASE_MESSAGING_SENDER_ID: '{{ FIREBASE_MESSAGING_SENDER_ID }}',
-            FIREBASE_APP_ID: '{{ FIREBASE_APP_ID }}'
+            FIREBASE_API_KEY: '<%- process.env.FIREBASE_API_KEY %>',
+            FIREBASE_AUTH_DOMAIN: '<%- process.env.FIREBASE_AUTH_DOMAIN %>',
+            FIREBASE_DATABASE_URL: '<%- process.env.FIREBASE_DATABASE_URL %>',
+            FIREBASE_PROJECT_ID: '<%- process.env.FIREBASE_PROJECT_ID %>',
+            FIREBASE_STORAGE_BUCKET: '<%- process.env.FIREBASE_STORAGE_BUCKET %>',
+            FIREBASE_MESSAGING_SENDER_ID: '<%- process.env.FIREBASE_MESSAGING_SENDER_ID %>',
+            FIREBASE_APP_ID: '<%- process.env.FIREBASE_APP_ID %>'
         };
     </script>
-    <script src="script.js" type="module"></script>
+    <script src="script.js"></script>
 </body>
 </html>

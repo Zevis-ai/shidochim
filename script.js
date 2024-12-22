@@ -10,9 +10,9 @@ const firebaseConfig = {
 };
 
 // Check if Firebase configuration is valid
-if (!firebaseConfig.databaseURL || !firebaseConfig.databaseURL.startsWith('https://')) {
-    console.error('Invalid Firebase Database URL. Please check your environment variables.');
-}
+//if (!firebaseConfig.databaseURL || !firebaseConfig.databaseURL.startsWith('https://')) {
+//    console.error('Invalid Firebase Database URL. Please check your environment variables.');
+//}
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

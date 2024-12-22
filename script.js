@@ -1,48 +1,16 @@
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: window.ENV.FIREBASE_API_KEY,
-    authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
-    databaseURL: window.ENV.FIREBASE_DATABASE_URL,
-    projectId: window.ENV.FIREBASE_PROJECT_ID,
-    storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
-    appId: window.ENV.FIREBASE_APP_ID
+    apiKey: "AIzaSyBqj5sgHuHRwQW-oxfwV7F5LDQYIaT0RpE",
+    authDomain: "shidochim-6588c.firebaseapp.com",
+    databaseURL: "https://shidochim-6588c-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "shidochim-6588c",
+    storageBucket: "shidochim-6588c.appspot.com",
+    messagingSenderId: "1050481626687",
+    appId: "1:1050481626687:web:d13da3e0dd7e5d0e5e8c9f"
 };
 
-// Debug: Print config (without sensitive data)
-console.log('Firebase Config:', {
-    authDomain: firebaseConfig.authDomain,
-    databaseURL: firebaseConfig.databaseURL,
-    projectId: firebaseConfig.projectId,
-    storageBucket: firebaseConfig.storageBucket
-});
-
 // Initialize Firebase
-try {
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-        console.log('Firebase initialized successfully');
-    }
-} catch (error) {
-    console.error('Firebase initialization error:', error);
-}
-
-// Auth state observer
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        console.log('User is signed in:', user);
-        updateUserInterface(user);
-        showWelcomeMessage(user.displayName);
-    } else {
-        console.log('User is signed out');
-        updateUserInterface(null);
-    }
-});
-
-console.log('Initializing Firebase with config:', {
-    ...firebaseConfig,
-    apiKey: '***'
-});
+firebase.initializeApp(firebaseConfig);
 
 // Global variables
 let currentStep = 0;
@@ -196,38 +164,23 @@ async function submitForm() {
         console.log('Form data with timestamp:', formData);
         
         // Save to Realtime Database
-        console.log('Getting database reference...');
-        const database = firebase.database();
-        console.log('Database reference obtained');
+        console.log('Saving to Firebase...');
+        const applicationsRef = firebase.database().ref('applications');
+        const newApplicationRef = applicationsRef.push();
         
-        console.log('Creating applications reference...');
-        const applicationsRef = database.ref('applications');
-        console.log('Applications reference created');
-        
-        console.log('Pushing new application...');
-        const newApplicationRef = await applicationsRef.push();
-        console.log('New application reference created:', newApplicationRef.key);
-        
-        console.log('Setting data...');
         await newApplicationRef.set(formData);
         console.log('Successfully saved to Firebase with key:', newApplicationRef.key);
         
-        // Show success message
-        const successMessage = document.getElementById('successMessage');
-        if (successMessage) {
-            successMessage.style.display = 'block';
-            successMessage.querySelector('p').textContent = 'הטופס נשלח בהצלחה! מספר הרשמה: ' + newApplicationRef.key;
-        }
+        alert('הטופס נשלח בהצלחה! מספר הרשמה: ' + newApplicationRef.key);
         
-        // Reset form
         const form = document.getElementById('matchmakingForm');
         if (form) {
             form.reset();
-            goToStep(1);
+            goToStep(0);
         }
     } catch (error) {
-        console.error('Error submitting form:', error);
-        alert('אירעה שגיאה בשליחת הטופס: ' + error.message);
+        console.error("Error submitting form:", error);
+        alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב מאוחר יותר.');
     }
 }
 
@@ -345,84 +298,4 @@ document.addEventListener('DOMContentLoaded', () => {
             form.reset(); // איפוס הטופס
         }, 3000);
     });
-});
-
-// פונקציות אימות
-async function signInWithGoogle() {
-    try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        provider.addScope('profile');
-        provider.addScope('email');
-        
-        console.log('Starting Google Sign In...');
-        const result = await firebase.auth().signInWithPopup(provider);
-        
-        console.log('Sign in successful:', result.user);
-        updateUserInterface(result.user);
-        showWelcomeMessage(result.user.displayName);
-    } catch (error) {
-        console.error('שגיאת התחברות:', error);
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
-        alert('אירעה שגיאה בהתחברות: ' + error.message);
-    }
-}
-
-function signOut() {
-    firebase.auth().signOut()
-        .then(() => {
-            updateUserInterface(null);
-            hideWelcomeMessage();
-        })
-        .catch((error) => {
-            console.error("שגיאת התנתקות:", error);
-        });
-}
-
-function showWelcomeMessage(userName) {
-    const welcomeDiv = document.createElement('div');
-    welcomeDiv.id = 'welcomeMessage';
-    welcomeDiv.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); ' +
-        'background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px; z-index: 1000;';
-    welcomeDiv.textContent = `ברוכים הבאים, ${userName}!`;
-    document.body.appendChild(welcomeDiv);
-    setTimeout(() => {
-        welcomeDiv.remove();
-    }, 3000);
-}
-
-function hideWelcomeMessage() {
-    const welcomeDiv = document.getElementById('welcomeMessage');
-    if (welcomeDiv) {
-        welcomeDiv.remove();
-    }
-}
-
-function updateUserInterface(user) {
-    const userInfo = document.getElementById('userInfo');
-    const loginButton = document.getElementById('loginButton');
-    const userPhoto = document.getElementById('userPhoto');
-    const userName = document.getElementById('userName');
-
-    if (user) {
-        // משתמש מחובר
-        userInfo.style.display = 'flex';
-        loginButton.style.display = 'none';
-        userPhoto.src = user.photoURL || 'https://via.placeholder.com/40';
-        userName.textContent = user.displayName;
-    } else {
-        // משתמש לא מחובר
-        userInfo.style.display = 'none';
-        loginButton.style.display = 'block';
-    }
-}
-
-// בדיקת מצב המשתמש בטעינת הדף
-firebase.auth().onAuthStateChanged((user) => {
-    updateUserInterface(user);
-    if (user) {
-        console.log("משתמש מחובר:", user.displayName);
-    } else {
-        console.log("משתמש לא מחובר");
-    }
 });

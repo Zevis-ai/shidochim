@@ -1,13 +1,18 @@
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: window.ENV?.FIREBASE_API_KEY,
-    authDomain: window.ENV?.FIREBASE_AUTH_DOMAIN,
-    databaseURL: window.ENV?.FIREBASE_DATABASE_URL,
-    projectId: window.ENV?.FIREBASE_PROJECT_ID,
-    storageBucket: window.ENV?.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: window.ENV?.FIREBASE_MESSAGING_SENDER_ID,
-    appId: window.ENV?.FIREBASE_APP_ID
+    apiKey: window.ENV.FIREBASE_API_KEY,
+    authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
+    databaseURL: window.ENV.FIREBASE_DATABASE_URL,
+    projectId: window.ENV.FIREBASE_PROJECT_ID,
+    storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+    appId: window.ENV.FIREBASE_APP_ID
 };
+
+// Initialize Firebase
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 console.log('Initializing Firebase with config:', {
     ...firebaseConfig,
@@ -27,19 +32,11 @@ if (!firebaseConfig.databaseURL || !firebaseConfig.databaseURL.startsWith('https
     console.error('Invalid Firebase Database URL. Please check your environment variables.');
 }
 
-// Initialize Firebase
-try {
-    firebase.initializeApp(firebaseConfig);
-    console.log('Firebase initialized successfully');
-    
-    // Test database connection
-    const dbRef = firebase.database().ref();
-    dbRef.child('test').once('value')
-        .then(() => console.log('Database connection successful'))
-        .catch(error => console.error('Database connection failed:', error));
-} catch (error) {
-    console.error('Firebase initialization error:', error);
-}
+// Test database connection
+const dbRef = firebase.database().ref();
+dbRef.child('test').once('value')
+    .then(() => console.log('Database connection successful'))
+    .catch(error => console.error('Database connection failed:', error));
 
 // Global variables
 let currentStep = 0;
@@ -342,4 +339,78 @@ document.addEventListener('DOMContentLoaded', () => {
             form.reset(); // איפוס הטופס
         }, 3000);
     });
+});
+
+// פונקציות אימות
+function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+            const user = result.user;
+            showWelcomeMessage(user.displayName);
+            updateUserInterface(user);
+        })
+        .catch((error) => {
+            console.error("שגיאת התחברות:", error);
+            alert("אירעה שגיאה בהתחברות. אנא נסה שוב.");
+        });
+}
+
+function signOut() {
+    firebase.auth().signOut()
+        .then(() => {
+            updateUserInterface(null);
+            hideWelcomeMessage();
+        })
+        .catch((error) => {
+            console.error("שגיאת התנתקות:", error);
+        });
+}
+
+function showWelcomeMessage(userName) {
+    const welcomeDiv = document.createElement('div');
+    welcomeDiv.id = 'welcomeMessage';
+    welcomeDiv.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); ' +
+        'background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px; z-index: 1000;';
+    welcomeDiv.textContent = `ברוכים הבאים, ${userName}!`;
+    document.body.appendChild(welcomeDiv);
+    setTimeout(() => {
+        welcomeDiv.remove();
+    }, 3000);
+}
+
+function hideWelcomeMessage() {
+    const welcomeDiv = document.getElementById('welcomeMessage');
+    if (welcomeDiv) {
+        welcomeDiv.remove();
+    }
+}
+
+function updateUserInterface(user) {
+    const userInfo = document.getElementById('userInfo');
+    const loginButton = document.getElementById('loginButton');
+    const userPhoto = document.getElementById('userPhoto');
+    const userName = document.getElementById('userName');
+
+    if (user) {
+        // משתמש מחובר
+        userInfo.style.display = 'flex';
+        loginButton.style.display = 'none';
+        userPhoto.src = user.photoURL || 'https://via.placeholder.com/40';
+        userName.textContent = user.displayName;
+    } else {
+        // משתמש לא מחובר
+        userInfo.style.display = 'none';
+        loginButton.style.display = 'block';
+    }
+}
+
+// בדיקת מצב המשתמש בטעינת הדף
+firebase.auth().onAuthStateChanged((user) => {
+    updateUserInterface(user);
+    if (user) {
+        console.log("משתמש מחובר:", user.displayName);
+    } else {
+        console.log("משתמש לא מחובר");
+    }
 });

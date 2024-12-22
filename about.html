@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אודות - שידוכים בהתאמה אישית</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <div class="about-page">
+        <header class="about-header">
+            <h1 class="about-title">
+                <i class="fas fa-heart"></i>
+                אודות השירות שלנו
+            </h1>
+        </header>
+
+        <main class="about-content">
+            <section class="about-section">
+                <div class="about-card">
+                    <i class="fas fa-handshake"></i>
+                    <h2>המשימה שלנו</h2>
+                    <p>אנו מאמינים שלכל אדם מגיע למצוא את הזיווג המושלם עבורו. השירות שלנו משלב בין מסורת לטכנולוגיה מתקדמת כדי ליצור התאמות מדויקות ומשמעותיות.</p>
+                </div>
+
+                <div class="about-card">
+                    <i class="fas fa-users"></i>
+                    <h2>הצוות שלנו</h2>
+                    <p>הצוות שלנו מורכב משדכנים מקצועיים עם ניסיון רב בתחום השידוכים, יחד עם מומחי טכנולוגיה המפתחים את המערכת החכמה שלנו להתאמה מיטבית.</p>
+                </div>
+
+                <div class="about-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>התהליך שלנו</h2>
+                    <p>אנו משתמשים במערכת התאמה מתקדמת המשלבת מידע אישי, העדפות, וערכים משותפים כדי ליצור שידוכים מוצלחים. כל פרופיל נבדק ומאומת על ידי הצוות שלנו.</p>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <div class="stat-item">
+                    <span class="stat-number">1000+</span>
+                    <span class="stat-label">זוגות מאושרים</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">95%</span>
+                    <span class="stat-label">שביעות רצון</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10</span>
+                    <span class="stat-label">שנות ניסיון</span>
+                </div>
+            </section>
+
+            <section class="testimonials-section">
+                <h2>המלצות מזוגות מאושרים</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <i class="fas fa-quote-right"></i>
+                        <p>"השירות המקצועי והאישי שקיבלנו היה מעל ומעבר למצופה. היום אנחנו זוג מאושר!"</p>
+                        <span class="testimonial-author">- יוסי ורחל</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <i class="fas fa-quote-right"></i>
+                        <p>"ההתאמה הייתה מדויקת להפליא. הרגשנו שבאמת הבינו אותנו ואת מה שאנחנו מחפשים."</p>
+                        <span class="testimonial-author">- דוד ולאה</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="about-footer">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-right"></i>
+                חזרה לדף הראשי
+            </a>
+        </footer>
+    </div>
+
+    <script>
+        // Load the header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+    </script>
+</body>
+</html>

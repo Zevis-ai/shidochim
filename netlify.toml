@@ -1,15 +1,17 @@
 [build]
   publish = "/"
-  command = "# no build command needed"
+  command = ""
+
+[build.processing]
+  skip_processing = true
 
 [build.environment]
   NODE_VERSION = "18"
 
-[context.production.environment]
-  FIREBASE_API_KEY = "from netlify UI"
-  FIREBASE_AUTH_DOMAIN = "from netlify UI"
-  FIREBASE_DATABASE_URL = "from netlify UI"
-  FIREBASE_PROJECT_ID = "from netlify UI"
-  FIREBASE_STORAGE_BUCKET = "from netlify UI"
-  FIREBASE_MESSAGING_SENDER_ID = "from netlify UI"
-  FIREBASE_APP_ID = "from netlify UI"
+[context.production]
+  environment = { }  # Environment variables are set in Netlify UI
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

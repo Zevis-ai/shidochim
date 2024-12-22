@@ -1,0 +1,11 @@
+[build]
+  publish = "/"
+
+[template.environment]
+  FIREBASE_API_KEY = "Firebase API Key"
+  FIREBASE_AUTH_DOMAIN = "Firebase Auth Domain"
+  FIREBASE_DATABASE_URL = "Firebase Database URL"
+  FIREBASE_PROJECT_ID = "Firebase Project ID"
+  FIREBASE_STORAGE_BUCKET = "Firebase Storage Bucket"
+  FIREBASE_MESSAGING_SENDER_ID = "Firebase Messaging Sender ID"
+  FIREBASE_APP_ID = "Firebase App ID"

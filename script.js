@@ -1,13 +1,18 @@
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.FIREBASE_APP_ID
+    apiKey: window.ENV?.FIREBASE_API_KEY,
+    authDomain: window.ENV?.FIREBASE_AUTH_DOMAIN,
+    databaseURL: window.ENV?.FIREBASE_DATABASE_URL,
+    projectId: window.ENV?.FIREBASE_PROJECT_ID,
+    storageBucket: window.ENV?.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV?.FIREBASE_MESSAGING_SENDER_ID,
+    appId: window.ENV?.FIREBASE_APP_ID
 };
+
+// Check if all Firebase configuration values are present
+//if (!Object.values(firebaseConfig).every(value => value)) {
+ //   console.error('Missing Firebase configuration. Please make sure all environment variables are set.');
+//}
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

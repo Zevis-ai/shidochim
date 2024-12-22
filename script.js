@@ -1,4 +1,4 @@
-// Firebase configuration זאבי
+// Firebase configuration
 const firebaseConfig = {
     apiKey: window.ENV?.FIREBASE_API_KEY,
     authDomain: window.ENV?.FIREBASE_AUTH_DOMAIN,
@@ -9,6 +9,11 @@ const firebaseConfig = {
     appId: window.ENV?.FIREBASE_APP_ID
 };
 
+console.log('Initializing Firebase with config:', {
+    ...firebaseConfig,
+    apiKey: '***'
+});
+
 // בדיקה אם כל המשתנים קיימים
 console.log('Firebase Config loaded:', {
     hasApiKey: !!firebaseConfig.apiKey,
@@ -18,9 +23,9 @@ console.log('Firebase Config loaded:', {
 });
 
 // Check if Firebase configuration is valid
-//if (!firebaseConfig.databaseURL || !firebaseConfig.databaseURL.startsWith('https://')) {
-//    console.error('Invalid Firebase Database URL. Please check your environment variables.');
-//}
+if (!firebaseConfig.databaseURL || !firebaseConfig.databaseURL.startsWith('https://')) {
+    console.error('Invalid Firebase Database URL. Please check your environment variables.');
+}
 
 // Initialize Firebase
 try {
@@ -188,33 +193,37 @@ async function submitForm() {
         console.log('Form data with timestamp:', formData);
         
         // Save to Realtime Database
-        console.log('Saving to Firebase...');
-        
-        // Get database reference and check if it exists
+        console.log('Getting database reference...');
         const database = firebase.database();
-        if (!database) {
-            throw new Error('Firebase database is not initialized');
-        }
         console.log('Database reference obtained');
         
+        console.log('Creating applications reference...');
         const applicationsRef = database.ref('applications');
         console.log('Applications reference created');
         
-        const newApplicationRef = applicationsRef.push();
-        console.log('New application reference created');
+        console.log('Pushing new application...');
+        const newApplicationRef = await applicationsRef.push();
+        console.log('New application reference created:', newApplicationRef.key);
         
+        console.log('Setting data...');
         await newApplicationRef.set(formData);
         console.log('Successfully saved to Firebase with key:', newApplicationRef.key);
         
-        alert('הטופס נשלח בהצלחה! מספר הרשמה: ' + newApplicationRef.key);
+        // Show success message
+        const successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            successMessage.style.display = 'block';
+            successMessage.querySelector('p').textContent = 'הטופס נשלח בהצלחה! מספר הרשמה: ' + newApplicationRef.key;
+        }
         
+        // Reset form
         const form = document.getElementById('matchmakingForm');
         if (form) {
             form.reset();
-            goToStep(0);
+            goToStep(1);
         }
     } catch (error) {
-        console.error("Error submitting form:", error);
+        console.error('Error submitting form:', error);
         alert('אירעה שגיאה בשליחת הטופס: ' + error.message);
     }
 }

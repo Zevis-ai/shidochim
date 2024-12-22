@@ -14,29 +14,22 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
+// Auth state observer
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        console.log('User is signed in:', user);
+        updateUserInterface(user);
+        showWelcomeMessage(user.displayName);
+    } else {
+        console.log('User is signed out');
+        updateUserInterface(null);
+    }
+});
+
 console.log('Initializing Firebase with config:', {
     ...firebaseConfig,
     apiKey: '***'
 });
-
-// בדיקה אם כל המשתנים קיימים
-console.log('Firebase Config loaded:', {
-    hasApiKey: !!firebaseConfig.apiKey,
-    hasAuthDomain: !!firebaseConfig.authDomain,
-    hasDatabaseURL: !!firebaseConfig.databaseURL,
-    hasProjectId: !!firebaseConfig.projectId
-});
-
-// Check if Firebase configuration is valid
-if (!firebaseConfig.databaseURL || !firebaseConfig.databaseURL.startsWith('https://')) {
-    console.error('Invalid Firebase Database URL. Please check your environment variables.');
-}
-
-// Test database connection
-const dbRef = firebase.database().ref();
-dbRef.child('test').once('value')
-    .then(() => console.log('Database connection successful'))
-    .catch(error => console.error('Database connection failed:', error));
 
 // Global variables
 let currentStep = 0;

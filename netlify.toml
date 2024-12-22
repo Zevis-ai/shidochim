@@ -1,6 +1,6 @@
 [build]
   publish = "/"
-  command = ""
+  command = "node -e \"const fs=require('fs');const content=fs.readFileSync('index.html','utf8');fs.writeFileSync('index.html',content.replace(/\\[([^\\]]+)\\]/g,(m,v)=>process.env[v]||m))\""
 
 [build.processing]
   skip_processing = true

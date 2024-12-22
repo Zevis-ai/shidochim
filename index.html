@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מערכת שידוכים</title>
+    <title>מערכת-שידוכים</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -327,18 +327,17 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
     <!-- Environment Variables -->
-    <!-- Environment Variables -->
-<script>
-    window.ENV = {
-        FIREBASE_API_KEY: Netlify.env.get("FIREBASE_API_KEY"),
-        FIREBASE_AUTH_DOMAIN: Netlify.env.get("FIREBASE_AUTH_DOMAIN"),
-        FIREBASE_DATABASE_URL: Netlify.env.get("FIREBASE_DATABASE_URL"),
-        FIREBASE_PROJECT_ID: Netlify.env.get("FIREBASE_PROJECT_ID"),
-        FIREBASE_STORAGE_BUCKET: Netlify.env.get("FIREBASE_STORAGE_BUCKET"),
-        FIREBASE_MESSAGING_SENDER_ID: Netlify.env.get("FIREBASE_MESSAGING_SENDER_ID"),
-        FIREBASE_APP_ID: Netlify.env.get("FIREBASE_APP_ID")
-    };
-</script>
+    <script>
+        window.ENV = {
+            FIREBASE_API_KEY: '[FIREBASE_API_KEY]',
+            FIREBASE_AUTH_DOMAIN: '[FIREBASE_AUTH_DOMAIN]',
+            FIREBASE_DATABASE_URL: '[FIREBASE_DATABASE_URL]',
+            FIREBASE_PROJECT_ID: '[FIREBASE_PROJECT_ID]',
+            FIREBASE_STORAGE_BUCKET: '[FIREBASE_STORAGE_BUCKET]',
+            FIREBASE_MESSAGING_SENDER_ID: '[FIREBASE_MESSAGING_SENDER_ID]',
+            FIREBASE_APP_ID: '[FIREBASE_APP_ID]'
+        };
+    </script>
 
     <!-- Load other scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
